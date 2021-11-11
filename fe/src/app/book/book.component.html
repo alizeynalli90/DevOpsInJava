@@ -1,0 +1,26 @@
+<div class="panel-body">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>id</th>
+                <th>title</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let book of books">
+                <td>{{ book.id }}</td>
+                <td>{{ book.title }}</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <!-- <form [formGroup]="bookForm" (ngSubmit)="save(bookForm.value)">
+        <div>
+            <input id="title" type="text" formControlName="title">
+        </div>
+
+        <button class="button" type="submit">Save</button>
+    </form> -->
+</div>
