@@ -1,0 +1,50 @@
+version: "3"
+
+services:
+  database:
+    image: mongo
+    container_name: database
+    environment:
+      MONGO_INITDB_DATABASE: books
+      MONGO_INITDB_ROOT_USERNAME: alizeynalli
+      MONGO_INITDB_ROOT_PASSWORD: CAni134!
+    ports:
+      - 27017:27017
+    volumes:
+      - devOpsData:/data/db
+    networks:
+      - backendNetwork
+
+  springapi:
+    image: openjdk:11-jre-slim
+    container_name: springapi
+    ports:
+      - 8080:8080
+    depends_on:
+      - database
+    volumes:
+      - ./backend/devops/mongoDB/target/mongoDB-0.0.1-SNAPSHOT.jar:/application.jar
+    command: ["java", "-jar", "application.jar"]
+    networks:
+      - backendNetwork
+      - frontendNetwork
+
+  angular:
+    image: nginx:alpine
+    container_name: angular
+    ports:
+      - 4200:80
+    depends_on:
+      - springapi
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+      - ./front/devops/dist/devops/:/usr/share/nginx/html
+    networks:
+      - frontendNetwork
+
+volumes:
+  devOpsData:
+
+networks:
+  backendNetwork:
+  frontendNetwork:
